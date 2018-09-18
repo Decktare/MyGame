@@ -64,24 +64,26 @@ namespace MyGame
         public static void Load()
         {
             Random random = new Random();
-            _objs = new BaseObject[30];
+            _objs = new BaseObject[20];
             
-            for (int i = 0; i < _objs.Length / 2; i++)
-            {
-                int size = random.Next(5, 25);
-                _objs[i] = new BaseObject(new Point(random.Next(0, 750), random.Next(0, 550)), new Point(2 + i, 2 + i), new Size(size, size));
-
-            }
-
-            //_objs = new BaseObject[30];
             //for (int i = 0; i < _objs.Length / 2; i++)
-            //    _objs[i] = new BaseObject(new Point(600, i * 20), new Point(-i, -i), new Size(10, 10));
-            for (int i = _objs.Length / 2; i < _objs.Length; i++)
+            //{
+            //    int size = random.Next(5, 25);
+            //    _objs[i] = new BaseObject(new Point(random.Next(0, 750), random.Next(0, 550)), new Point(2 + i, 2 + i), new Size(size, size));
+            //}
+
+            for (int i = 0; i < 15; i++)
             {
                 int size = random.Next(5, 25);
-                _objs[i] = new Star(new Point(random.Next(0, 750), random.Next(0, 550)), new Point(2 + i, 2 + i), new Size(size, size));
+                _objs[i] = new Star(new Point(random.Next(0, 750), random.Next(0, 550)), new Point(5 + i, 5 + i), new Size(size, size));
             }
-                
+            _objs[15] = new HellPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(3, 3), new Size(0, 0));
+            _objs[16] = new Planet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(4, 4), new Size(0, 0));
+            _objs[17] = new Planet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(4, 4), new Size(0, 0));
+            _objs[18] = new RazlomPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(3, 3), new Size(0, 0));
+            _objs[19] = new KolcaPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(2, 2), new Size(0, 0));
+
+
         }
 
     }
