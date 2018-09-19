@@ -64,7 +64,7 @@ namespace MyGame
         public static void Load()
         {
             Random random = new Random();
-            _objs = new BaseObject[20];
+            _objs = new BaseObject[21];
             
             //for (int i = 0; i < _objs.Length / 2; i++)
             //{
@@ -82,6 +82,7 @@ namespace MyGame
             _objs[17] = new Planet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(4, 4), new Size(0, 0));
             _objs[18] = new RazlomPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(3, 3), new Size(0, 0));
             _objs[19] = new KolcaPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(2, 2), new Size(0, 0));
+            _objs[20] = new Ship(new Point(200, 200), new Point(2, 2), new Size(0, 0));
 
 
         }
