@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asteroid.cs" />
     <Compile Include="BaseObject.cs" />
+    <Compile Include="Bullet.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +57,7 @@
     </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="HellPlanet.cs" />
+    <Compile Include="ICollision.cs" />
     <Compile Include="KolcaPlanet.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Program.cs" />
@@ -82,15 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="kolca_1.jpg" />
-    <Content Include="kolca_2.jpg" />
-    <Content Include="razlom_1.jpg" />
-    <Content Include="razlom_2.jpg" />
-    <Content Include="razlom_3.jpg" />
-    <Content Include="star_1.jpg" />
-    <Content Include="star_2.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,8 @@ namespace MyGame
     class Game
     {
         public static BaseObject[] _objs;
-        
+        private static Bullet _bullet;
+        private static Asteroid[] _asteroids;
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
         public static int Width { get; set; }
@@ -46,44 +47,51 @@ namespace MyGame
         public static void Draw()
         {
             Buffer.Graphics.Clear(Color.Black);
-            //Buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
-            //Buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200));
-            Buffer.Render();
-
-            Buffer.Graphics.Clear(Color.Black);
             foreach (BaseObject obj in _objs)
                 obj.Draw();
+            foreach (Asteroid obj in _asteroids)
+                obj.Draw();
+            _bullet.Draw();
             Buffer.Render();
         }
         public static void Update()
         {
             foreach (BaseObject obj in _objs)
                 obj.Update();
+            foreach (Asteroid a in _asteroids)
+            {
+                a.Update();
+                if (a.Collision(_bullet))
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                    a.Collision();                    
+                }
+            }
+                
+            _bullet.Update();
         }
         
         public static void Load()
         {
             Random random = new Random();
-            _objs = new BaseObject[20];
-            
-            //for (int i = 0; i < _objs.Length / 2; i++)
-            //{
-            //    int size = random.Next(5, 25);
-            //    _objs[i] = new BaseObject(new Point(random.Next(0, 750), random.Next(0, 550)), new Point(2 + i, 2 + i), new Size(size, size));
-            //}
+            _objs = new BaseObject[40];
+            _asteroids = new Asteroid[20];
 
-            for (int i = 0; i < 15; i++)
-            {
-                int size = random.Next(5, 25);
-                _objs[i] = new Star(new Point(random.Next(0, 750), random.Next(0, 550)), new Point(5 + i, 5 + i), new Size(size, size));
+
+            for (int i = 0; i < 35; i++)
+            {                
+                _objs[i] = new Star(new Point(random.Next(0, Width - 50), random.Next(0, Height - 50)), new Point(5 + i, 5 + i), new Size(0, 0));
             }
-            _objs[15] = new HellPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(3, 3), new Size(0, 0));
-            _objs[16] = new Planet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(4, 4), new Size(0, 0));
-            _objs[17] = new Planet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(4, 4), new Size(0, 0));
-            _objs[18] = new RazlomPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(3, 3), new Size(0, 0));
-            _objs[19] = new KolcaPlanet(new Point(random.Next(0, 750), random.Next(0, 400)), new Point(2, 2), new Size(0, 0));
-
-
+            _objs[35] = new HellPlanet(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(3, 3), new Size(0, 0));
+            _objs[36] = new Planet(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(4, 4), new Size(0, 0));
+            _objs[37] = new Planet(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(4, 4), new Size(0, 0));
+            _objs[38] = new RazlomPlanet(new Point(random.Next(0, Width- 120), random.Next(0, Height- 120)), new Point(3, 3), new Size(0, 0));
+            _objs[39] = new KolcaPlanet(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(2, 2), new Size(0, 0));
+            _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(50, 45));
+            for (var i = 0; i < _asteroids.Length; i++)
+            {                
+                _asteroids[i] = new Asteroid(new Point(random.Next(0, 750), 200), new Point(10, 10), new Size(5, 45));
+            }
         }
 
     }

@@ -16,7 +16,7 @@ namespace MyGame
         {
 
             Random random = new Random();
-            Image newImage = Image.FromFile("razlom_1.jpg"); Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
+            Image newImage = Image.FromFile("razlom_1.png"); Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
 
             //Random random = new Random();
             //int rnd = random.Next(0, 2);
