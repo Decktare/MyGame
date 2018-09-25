@@ -9,30 +9,14 @@ namespace MyGame
 {
     class Star: BaseObject
     {
+        Image newImage;
         public Star(Point pos, Point dir, Size size):base(pos,dir,size)
         {
+            newImage = Image.FromFile("star_2.png");
         }
         public override void Draw()
         {
-
-            Random random = new Random();
-            Image newImage = Image.FromFile("star_2.png"); Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
-
-            //Random random = new Random();
-            //int rnd = random.Next(0, 2);
-            //if(rnd == 0)
-            //{
-            //    Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X, Pos.Y, Pos.X + Size.Width, Pos.Y + Size.Height);
-            //    Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X + Size.Width, Pos.Y, Pos.X, Pos.Y + Size.Height);
-            //    Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X + Size.Width / 2, Pos.Y, Pos.X + Size.Width / 2, Pos.Y + Size.Height);
-            //    Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X, Pos.Y + Size.Height / 2, Pos.X + Size.Width, Pos.Y + Size.Height / 2);
-            //}
-            //else
-            //{
-            //    Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X + Size.Width / 2, Pos.Y, Pos.X + Size.Width / 2, Pos.Y + Size.Height);
-            //    Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X, Pos.Y + Size.Height / 2, Pos.X + Size.Width, Pos.Y + Size.Height / 2);
-            //}
-            
+            Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);            
         }
         public override void Update()
         {

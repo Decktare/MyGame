@@ -9,12 +9,14 @@ namespace MyGame
 {
     class Bullet : BaseObject
     {
+        Image newImage;
         public Bullet(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
+            newImage = Image.FromFile("Shoot.png");
         }
         public override void Draw()
         {
-            Image newImage = Image.FromFile("Shoot.png"); Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
+            Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
         }
         public override void Update()
         {
