@@ -20,7 +20,7 @@ namespace MyGame
         }
         public override void Draw()
         {
-            Image newImage = Image.FromFile("ship.png"); Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
+            Image newImage = Image.FromFile("TShip.png"); Game.Buffer.Graphics.DrawImage(newImage, Pos.X, Pos.Y);
         }
         public override void Update()
         {
@@ -33,8 +33,10 @@ namespace MyGame
         {
             if (Pos.Y < Game.Height) Pos.Y = Pos.Y + Dir.Y;
         }
+        public static event Message MessageDie;
         public void Die()
         {
+            MessageDie?.Invoke();
         }
     }
 }
