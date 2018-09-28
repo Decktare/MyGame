@@ -11,7 +11,8 @@ namespace MyGame
     class Game
     {
         public static BaseObject[] _objs;
-        private static Bullet _bullet;
+        //private static Bullet _bullet;
+        private static List<Bullet> _bullets = new List<Bullet>();
         private static Asteroid[] _asteroids;
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
@@ -59,7 +60,7 @@ namespace MyGame
             Buffer.Graphics.Clear(Color.Black);
             foreach (BaseObject obj in _objs) obj.Draw();
             foreach (Asteroid a in _asteroids) { a?.Draw(); }
-            _bullet?.Draw();
+            foreach (Bullet b in _bullets) b.Draw();
             _ship?.Draw();
             if (_ship != null)
                 Buffer.Graphics.DrawString("Energy:" + _ship.Energy, SystemFonts.DefaultFont, Brushes.White, 0, 0);
@@ -68,23 +69,23 @@ namespace MyGame
         public static void Update()
         {
             foreach (BaseObject obj in _objs) obj.Update();
-            _bullet?.Update();
+            foreach (Bullet b in _bullets) b.Update();
             for (var i = 0; i < _asteroids.Length; i++)
             {
                 if (_asteroids[i] == null) continue;
                 _asteroids[i].Update();
-                if (_bullet != null && _bullet.Collision(_asteroids[i]))
-                {
-                    System.Media.SystemSounds.Hand.Play();
-                    _asteroids[i] = null;
-                    _bullet = null;
-                    continue;
-                }
-                if (!_ship.Collision(_asteroids[i])) continue;
-                var rnd = new Random();
-                _ship?.EnergyLow(rnd.Next(1, 10));
+                for (int j = 0; j < _bullets.Count; j++)
+                    if (_asteroids[i] != null && _bullets[j].Collision(_asteroids[i]))
+                    {
+                        System.Media.SystemSounds.Hand.Play();
+                        _asteroids[i] = null;
+                        _bullets.RemoveAt(j);
+                        j--;
+                    }
+                if (_asteroids[i] == null || !_ship.Collision(_asteroids[i])) continue;
+                _ship.EnergyLow(Rnd.Next(1, 10));
                 System.Media.SystemSounds.Asterisk.Play();
-                if (_ship.Energy <= 0) _ship?.Die();
+                if (_ship.Energy <= 0) _ship.Die();
             }
         }
         
@@ -104,19 +105,21 @@ namespace MyGame
             _objs[37] = new Planet(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(4, 4), new Size(0, 0));
             _objs[38] = new RazlomPlanet(new Point(random.Next(0, Width- 120), random.Next(0, Height- 120)), new Point(3, 3), new Size(0, 0));
             _objs[39] = new KolcaPlanet(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(2, 2), new Size(0, 0));
-            _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(50, 45));
+            //_bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(50, 45));
             for (var i = 0; i < _asteroids.Length; i++)
             {                
                 _asteroids[i] = new Asteroid(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(10, 10), new Size(5, 45));
             }
 
         }
-        private static Ship _ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(100, 100));
+        private static Ship _ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(50, 50));
         private static void Form_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey) _bullet = new Bullet(new Point(_ship.Rect.X + 10, _ship.Rect.Y + 45), new Point(6, 0), new Size(50, 45));
+            if (e.KeyCode == Keys.ControlKey) _bullets.Add(new Bullet(new Point(_ship.Rect.X + 20, _ship.Rect.Y), new Point(4, 0), new Size(15, 45)));
             if (e.KeyCode == Keys.Up) _ship.Up();
             if (e.KeyCode == Keys.Down) _ship.Down();
+            if (e.KeyCode == Keys.Left) _ship.Left();
+            if (e.KeyCode == Keys.Right) _ship.Right();
         }
     }
 }

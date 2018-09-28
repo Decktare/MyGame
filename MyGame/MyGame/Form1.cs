@@ -15,6 +15,8 @@ namespace MyGame
         public Form1()
         {
             InitializeComponent();
+
+            //ToolStripMenuItem fileItem = new ToolStripMenuItem("Файл");
         }
     }
 }
