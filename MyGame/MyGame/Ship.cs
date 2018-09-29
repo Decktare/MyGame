@@ -16,6 +16,11 @@ namespace MyGame
         {
             _energy -= n;
         }
+        public void EnergyHigh(int n)
+        {
+            if(_energy<100) _energy += n;
+            if (_energy > 100) _energy = 100;
+        }
         public Ship(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
             newImage = Image.FromFile("TShip.png");

@@ -33,7 +33,8 @@ namespace MyGame
         }
         public object Clone()
         {
-            Asteroid asteroid = new Asteroid(new Point(Pos.X, Pos.Y), new Point(Dir.X, Dir.Y), new Size(Size.Width, Size.Height));
+            Random random = new Random();
+            Asteroid asteroid = new Asteroid(new Point(random.Next(0, Game.Width - 120), random.Next(0, Game.Height - 120)), new Point(Dir.X, Dir.Y), new Size(Size.Width, Size.Height));
             asteroid.Power = Power;
             return asteroid;
         }

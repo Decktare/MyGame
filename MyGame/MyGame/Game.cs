@@ -11,6 +11,7 @@ namespace MyGame
     class Game
     {
         public static BaseObject[] _objs;
+        public static int Count = 0;
         //private static Bullet _bullet;
         private static List<Bullet> _bullets = new List<Bullet>();
         private static Asteroid[] _asteroids;
@@ -62,14 +63,18 @@ namespace MyGame
             foreach (Asteroid a in _asteroids) { a?.Draw(); }
             foreach (Bullet b in _bullets) b.Draw();
             _ship?.Draw();
+            _heal?.Draw();
+            
             if (_ship != null)
-                Buffer.Graphics.DrawString("Energy:" + _ship.Energy, SystemFonts.DefaultFont, Brushes.White, 0, 0);
+                Buffer.Graphics.DrawString("Energy: " + _ship.Energy + " Counts of asteroids: " + Count, SystemFonts.DefaultFont, Brushes.White, 0, 0);
             Buffer.Render();
         }
         public static void Update()
         {
+            Random random = new Random();
             foreach (BaseObject obj in _objs) obj.Update();
             foreach (Bullet b in _bullets) b.Update();
+            if (_ship.Collision(_heal)) { _ship.EnergyHigh(Rnd.Next(1, 50)); _heal.Update(); }
             for (var i = 0; i < _asteroids.Length; i++)
             {
                 if (_asteroids[i] == null) continue;
@@ -79,11 +84,14 @@ namespace MyGame
                     {
                         System.Media.SystemSounds.Hand.Play();
                         _asteroids[i] = null;
+                        _asteroids[i] = new Asteroid(new Point(Width - 120, random.Next(0, Height - 120)), new Point(10, 10), new Size(5, 45));
+                        Count++;
                         _bullets.RemoveAt(j);
                         j--;
                     }
                 if (_asteroids[i] == null || !_ship.Collision(_asteroids[i])) continue;
                 _ship.EnergyLow(Rnd.Next(1, 10));
+
                 System.Media.SystemSounds.Asterisk.Play();
                 if (_ship.Energy <= 0) _ship.Die();
             }
@@ -109,10 +117,11 @@ namespace MyGame
             for (var i = 0; i < _asteroids.Length; i++)
             {                
                 _asteroids[i] = new Asteroid(new Point(random.Next(0, Width - 120), random.Next(0, Height - 120)), new Point(10, 10), new Size(5, 45));
-            }
+            }            
 
         }
-        private static Ship _ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(50, 50));
+        private static Ship _ship = new Ship(new Point(10, 400), new Point(0, 0), new Size(50, 50));
+        private static Heal _heal = new Heal(new Point(10, 400), new Point(0, 0), new Size(50, 50));
         private static void Form_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.ControlKey) _bullets.Add(new Bullet(new Point(_ship.Rect.X + 20, _ship.Rect.Y), new Point(4, 0), new Size(15, 45)));
